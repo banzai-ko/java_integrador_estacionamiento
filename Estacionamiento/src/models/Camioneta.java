@@ -35,7 +35,7 @@ public class Camioneta extends Vehiculo implements ICobrable {
         StringBuilder sb = new StringBuilder();
         sb.append("Camioneta: ").append(System.lineSeparator());
         sb.append(super.toString());
-        sb.append("capacidadCarga=").append(capacidadCarga);
+        sb.append(", capacidadCarga=").append(capacidadCarga);
 
         return sb.toString();
     }
@@ -57,8 +57,9 @@ public class Camioneta extends Vehiculo implements ICobrable {
     
         public String toCSV(){
         StringBuilder sb = new StringBuilder();
-        sb.append(super.toCSV()).append(this.calcularPrecio()).append("Camioneta");
-        
+        sb.append(super.toCSV()).append(this.calcularPrecio()).append(",Camioneta");
+        sb.append(",").append(this.capacidadCarga);
+                
         return sb.toString();
     }
 }

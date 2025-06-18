@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -47,6 +48,10 @@ public class FormularioController implements Initializable {
     @FXML
     TextField txtDatoExtra;
     
+    @FXML private TextField txtAnio;
+    @FXML private TextField txtValor;
+    @FXML private ComboBox<String> cmbTipo;
+    @FXML private TextField txtPuertas; // solo para Auto
     private Vehiculo vehiculo;
     private Vehiculo vehiculoAModificar;
     
@@ -127,7 +132,32 @@ public class FormularioController implements Initializable {
     public void cancelar(){
         this.cerrar();
     }
-    
+    private Vehiculo original;
+
+    public void setVehiculo(Vehiculo vehiculo) {
+    this.original = vehiculo;
+
+    txtPatente.setText(vehiculo.getPatente());
+    txtMarca.setText(vehiculo.getMarca());
+    txtModelo.setText(vehiculo.getModelo());
+    txtAnio.setText(String.valueOf(vehiculo.getCantHoras()));
+    txtValor.setText(String.valueOf(vehiculo.getPrecioHora()));
+
+    if (vehiculo instanceof Auto auto) {
+        cmbTipo.setValue("Auto");
+        txtPuertas.setText(String.valueOf(auto.getCantPuertas()));
+        txtPuertas.setDisable(false);
+    } else if (vehiculo instanceof Camioneta) {
+        cmbTipo.setValue("Camioneta");
+        txtPuertas.clear();
+        txtPuertas.setDisable(true);
+    } else if (vehiculo instanceof Moto) {
+        cmbTipo.setValue("Moto");
+        txtPuertas.clear();
+        txtPuertas.setDisable(true);
+    }
+}
+     
     public Vehiculo getVehiculo(){
         
         return this.vehiculo;

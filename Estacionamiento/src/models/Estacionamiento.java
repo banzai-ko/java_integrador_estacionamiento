@@ -36,11 +36,24 @@ public class Estacionamiento {
    }
            
            
-//public void modificarVehiculo(Vehiculo vehiculo){         STANDBY...
-//    
-//    
-//}
-        
+
+    
+public void modificarVehiculo(Vehiculo vehiculoActual, Vehiculo vehiculoModificado) {
+        int index = this.vehiculos.indexOf(vehiculoActual);
+        if (index == -1) {
+            //throw new VehiculoNoEncontradoException("El vehículo a modificar no se encuentra.");
+            System.out.println("VEHICULO NOT FOUND");
+        }
+
+        for (Vehiculo v : vehiculos) {
+            if (!v.equals(vehiculoActual) && v.equals(vehiculoModificado)) {
+                throw new VehiculoRepetidoException("Ya existe un vehículo igual al modificado.");
+            }
+        }
+
+        this.vehiculos.set(index, vehiculoModificado);
+        System.out.println("Vehículo modificado.");
+    }        
         
 public  void eliminarVehiculo(Vehiculo vehiculo){
     

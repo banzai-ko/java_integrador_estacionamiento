@@ -95,7 +95,7 @@ public abstract class Vehiculo {
         sb.append(", modelo=").append(modelo);
         sb.append(", cantHoras=").append(cantHoras);
         sb.append(", precioHora=").append(precioHora);
-        sb.append('}');
+        
         
         return sb.toString();
     }
@@ -108,6 +108,7 @@ public abstract class Vehiculo {
         sb.append(this.modelo).append(",");
         sb.append(this.cantHoras).append(",");
         sb.append(this.precioHora).append(",");
+        
         
         return sb.toString();
 

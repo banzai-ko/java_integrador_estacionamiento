@@ -35,8 +35,11 @@ public class Auto extends Vehiculo implements ICobrable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Auto: ").append(System.lineSeparator());
-        sb.append(super.toString());
-        sb.append("cantPuertas=").append(cantPuertas);
+        sb.append(super.toString()).append(",");
+        sb.append("cantPuertas= ");
+        sb.append(this.cantPuertas);
+        sb.append('}');
+        
 
         return sb.toString();
     }
@@ -59,7 +62,8 @@ public class Auto extends Vehiculo implements ICobrable {
     @Override
     public String toCSV(){
         StringBuilder sb = new StringBuilder();
-        sb.append(super.toCSV()).append(this.calcularPrecio()).append("Auto");
+        sb.append(super.toCSV()).append(this.calcularPrecio()).append(",Auto");
+        sb.append(",").append(this.cantPuertas);
         
         return sb.toString();
     }

@@ -25,9 +25,9 @@ public class CSVUtilsGeneric<T extends Vehiculo> {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivoCsv))) {
             bw.write(encabezado);
             
-            for (T item : lista){
-            bw.write(item.toCSV());
-            bw.newLine();
+            for (T item : lista) {
+                bw.write(item.toCSV());
+                bw.newLine();
             }
             
         } catch (IOException e) {
@@ -35,7 +35,7 @@ public class CSVUtilsGeneric<T extends Vehiculo> {
         }
     }
 
-        public ArrayList<Vehiculo> leerCSV(String ruta){
+    public ArrayList<Vehiculo> leerCSV(String ruta){
         // Leer el CSV
         ArrayList<Vehiculo> lista = new ArrayList<>(); 
         try (BufferedReader br = new BufferedReader(new FileReader(ruta))) {

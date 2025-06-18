@@ -35,7 +35,7 @@ public class Moto extends Vehiculo implements ICobrable {
         StringBuilder sb = new StringBuilder();
         sb.append("Moto: ").append(System.lineSeparator());
         sb.append(super.toString());
-        sb.append("Cilindrada= ").append(cilindrada);
+        sb.append(", Cilindrada= ").append(cilindrada);
 
         return sb.toString();
     }
@@ -58,8 +58,9 @@ public class Moto extends Vehiculo implements ICobrable {
     @Override
     public String toCSV(){
         StringBuilder sb = new StringBuilder();
-        sb.append(super.toCSV()).append(this.calcularPrecio()).append("Moto");
-        
+        sb.append(super.toCSV()).append(this.calcularPrecio()).append(",Moto");
+        sb.append(",").append(this.cilindrada);
+                      
         return sb.toString();
     }
 }
