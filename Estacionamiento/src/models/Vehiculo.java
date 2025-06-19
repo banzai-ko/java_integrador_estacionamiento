@@ -25,6 +25,10 @@ public abstract class Vehiculo {
         this.cantHoras = cantHoras;
         this.precioHora = precioHora;
     }
+    
+    public Vehiculo(){
+        
+    }
 
     public String getPatente() {
         return this.patente;

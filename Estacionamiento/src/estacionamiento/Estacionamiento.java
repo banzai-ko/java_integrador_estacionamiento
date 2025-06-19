@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
 package estacionamiento;
+import Controllers.VistaController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,7 +16,6 @@ import javafx.stage.Stage;
  */
 public class Estacionamiento extends Application {
 
-
     @Override
     public void start(Stage stage) throws Exception { 
         //Entry Point de mi aplicación
@@ -24,17 +24,20 @@ public class Estacionamiento extends Application {
         
         //Creo la escena
         Scene scene = new Scene(loader.load()); //Utilizo el metodo que viene con FXMLLoader
+        VistaController controladorVista = loader.getController();
         
         //Seteo la escena en el stage
         stage.setScene(scene);
         
         //Muestro
+        stage.setOnCloseRequest(e -> controladorVista.GuardarArchivo()); 
         stage.show();
+        
     }
     
     
     public static void main(String[] args) {
-            Application.launch();
+        Application.launch();
     }
     
 }

@@ -4,18 +4,21 @@
  */
 package models;
 
-import Interfaces.ICobrable;
+import Interfaces.*;
 
 /**
  *
  * @author box
  */
-public class Moto extends Vehiculo implements ICobrable {
+public class Moto extends Vehiculo implements ICobrable, ISerializableCsv {
     private int cilindrada;
 
     public Moto(int cilindrada, String patente, String marca, String modelo, int cantHoras, double precioHora) {
         this(patente, marca, modelo, cantHoras, precioHora);
         this.cilindrada = cilindrada;
+    }
+    
+    public Moto() { 
     }
     
     public Moto(String patente, String marca, String modelo, int cantHoras, double precioHora) {
@@ -58,8 +61,24 @@ public class Moto extends Vehiculo implements ICobrable {
     @Override
     public String toCSV(){
         StringBuilder sb = new StringBuilder();
-        sb.append(super.toCSV()).append(this.calcularPrecio()).append("Moto");
+        sb.append(super.toCSV()).append(this.calcularPrecio()).append(",Moto");
+        sb.append(",").append(this.cilindrada);
         
         return sb.toString();
+    }
+    
+    @Override
+    public Moto fromCSV(String line) {
+        String[] result = line.split(",");
+        String patente = result[0];
+        String marca = result[1];
+        String modelo = result[2];
+        int cantHoras = Integer.parseInt(result[3]);
+        double precioHora = Double.parseDouble(result[4]);
+        String tipo = result[6];
+        int cilindrada = Integer.parseInt(result[7]);
+        Moto moto = new Moto(cilindrada, patente, marca, modelo, cantHoras, precioHora);
+        
+        return moto;
     }
 }

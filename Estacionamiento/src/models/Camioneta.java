@@ -4,12 +4,12 @@
  */
 package models;
 
-import Interfaces.ICobrable;
+import Interfaces.*;
 /**
  *
  * @author box
  */
-public class Camioneta extends Vehiculo implements ICobrable {
+public class Camioneta extends Vehiculo implements ICobrable, ISerializableCsv {
     private int capacidadCarga;
 
     public Camioneta(int capacidadCarga, String patente, String marca, String modelo, int cantHoras, double precioHora) {
@@ -21,12 +21,14 @@ public class Camioneta extends Vehiculo implements ICobrable {
         super(patente, marca, modelo, cantHoras, precioHora);
        
     }
+    public Camioneta() {
+    }
 
-     public int getCantPuertas() {
+     public int getCapacidadCarga() {
         return capacidadCarga;
     }
 
-    public void setCantPuertas(int capacidadCarga) {
+    public void setCapacidadCarga(int capacidadCarga) {
         this.capacidadCarga = capacidadCarga;
     }
 
@@ -57,8 +59,25 @@ public class Camioneta extends Vehiculo implements ICobrable {
     
         public String toCSV(){
         StringBuilder sb = new StringBuilder();
-        sb.append(super.toCSV()).append(this.calcularPrecio()).append("Camioneta");
+        sb.append(super.toCSV()).append(this.calcularPrecio()).append(",Camioneta");
+        sb.append(",").append(this.capacidadCarga);
         
         return sb.toString();
     }
+    
+    @Override
+    public Camioneta fromCSV(String line) {
+        String[] result = line.split(",");
+        String patente = result[0];
+        String marca = result[1];
+        String modelo = result[2];
+        int cantHoras = Integer.parseInt(result[3]);
+        double precioHora = Double.parseDouble(result[4]);
+        String tipo = result[6];
+        int capacidadCarga = Integer.parseInt(result[7]);
+        Camioneta camioneta = new Camioneta(capacidadCarga, patente, marca, modelo, cantHoras, precioHora);
+        
+        return camioneta;
+    }
+        
 }

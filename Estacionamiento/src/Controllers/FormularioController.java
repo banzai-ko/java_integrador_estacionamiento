@@ -48,8 +48,7 @@ public class FormularioController implements Initializable {
     TextField txtDatoExtra;
     
     private Vehiculo vehiculo;
-    private Vehiculo vehiculoAModificar;
-    
+       
     
     @FXML
     Label lblDatoExtra;
@@ -84,40 +83,33 @@ public class FormularioController implements Initializable {
         Double precio = Double.parseDouble((txtPrecio.getText()));
         int datoExtra = Integer.parseInt(txtDatoExtra.getText());
         
-        if (vehiculoAModificar != null){
+        if (vehiculo != null) {
             
-            vehiculoAModificar.setMarca(marca);
-            vehiculoAModificar.setModelo(modelo);
-            vehiculoAModificar.setCantHoras(horas);
-            vehiculoAModificar.setPrecioHora(precio);
+            vehiculo.setMarca(marca);
+            vehiculo.setModelo(modelo);
+            vehiculo.setCantHoras(horas);
+            vehiculo.setPrecioHora(precio);
             
             switch(tipo){
-            
-            case "AUTO" -> ((Auto)vehiculoAModificar).setCantPuertas(datoExtra);
-            
-            case "MOTO" -> ((Moto)vehiculoAModificar).setcilindrada(datoExtra);
-            
-            case "CAMIONETA" -> ((Camioneta)vehiculoAModificar).setCantPuertas(datoExtra);
-            
-        }
-            
-            this.vehiculo = this.vehiculoAModificar;
+                case "AUTO" -> ((Auto)vehiculo).setCantPuertas(datoExtra);
+
+                case "MOTO" -> ((Moto)vehiculo).setcilindrada(datoExtra);
+
+                case "CAMIONETA" -> ((Camioneta)vehiculo).setCapacidadCarga(datoExtra);
+            }
         }
         
         else{
-            System.out.println("LLegué");
-            System.out.println(tipo);
+            
             switch(tipo){
             
-            case "AUTO" -> this.vehiculo = new Auto(datoExtra, patente, marca, modelo, horas, precio);
+                case "AUTO" -> this.vehiculo = new Auto(datoExtra, patente, marca, modelo, horas, precio);
             
-            case "MOTO" -> this.vehiculo = new Moto(datoExtra, patente, marca, modelo, horas, precio);
+                case "MOTO" -> this.vehiculo = new Moto(datoExtra, patente, marca, modelo, horas, precio);
             
-            case "CAMIONETA" -> this.vehiculo = new Camioneta(datoExtra, patente, marca, modelo, horas, precio);
+                case "CAMIONETA" -> this.vehiculo = new Camioneta(datoExtra, patente, marca, modelo, horas, precio);                        
             
-        }
-            System.out.println(this.vehiculo);
-            
+            }
         }
         
         this.cerrar();
@@ -131,6 +123,30 @@ public class FormularioController implements Initializable {
     public Vehiculo getVehiculo(){
         
         return this.vehiculo;
+    }
+    
+    public void setVehiculo(Vehiculo vehiculo) {
+        this.vehiculo = vehiculo; 
+        if(vehiculo != null){
+            this.txtPatente.setDisable(true);
+            this.txtMarca.setText(vehiculo.getMarca());
+            this.txtModelo.setText(vehiculo.getModelo());
+            this.txtCantHoras.setText(String.valueOf(vehiculo.getCantHoras()));
+            this.txtPrecio.setText(String.valueOf(vehiculo.getPrecioHora()));
+            
+            if( vehiculo instanceof Auto auto) {
+                this.txtDatoExtra.setText(String.valueOf(auto.getCantPuertas()));
+                CBTipo.setValue("AUTO");
+            }
+            if (vehiculo instanceof Camioneta camioneta) {
+                this.txtDatoExtra.setText(String.valueOf(camioneta.getCapacidadCarga()));
+                CBTipo.setValue("CAMIONETA");
+            }
+            if (vehiculo instanceof Moto moto){
+                this.txtDatoExtra.setText(String.valueOf(moto.getcilindrada()));
+                CBTipo.setValue("MOTO");
+            }
+        }
     }
     
     private void cerrar(){
