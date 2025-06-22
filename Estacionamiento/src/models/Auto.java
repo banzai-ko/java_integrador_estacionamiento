@@ -46,9 +46,7 @@ public class Auto extends Vehiculo implements ICobrable, ISerializableCsv{
     
     @Override
     public double calcularPrecio() {
-        
         double valor = this.precioHora * this.cantHoras;
-        
         double valorIncrementado = valor + (valor * this.getIncremento());
         
         return valorIncrementado;
@@ -83,10 +81,4 @@ public class Auto extends Vehiculo implements ICobrable, ISerializableCsv{
         
         return auto;
     }
-    
-    
-    
-    
-     
-    
 }

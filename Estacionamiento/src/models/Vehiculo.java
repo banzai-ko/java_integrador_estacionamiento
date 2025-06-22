@@ -106,7 +106,6 @@ public abstract class Vehiculo {
     
     public String toCSV(){
         StringBuilder sb = new StringBuilder();
-        
         sb.append(this.patente).append(",");
         sb.append(this.marca).append(",");
         sb.append(this.modelo).append(",");

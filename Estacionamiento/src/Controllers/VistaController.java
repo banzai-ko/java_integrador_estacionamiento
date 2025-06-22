@@ -54,107 +54,107 @@ public class VistaController implements Initializable {
     }    
     
     @FXML
-        public void agregar(ActionEvent evento){
-            this.AbrirFormulario(null);
-        }
+    public void agregar(ActionEvent evento){
+        this.AbrirFormulario(null);
+    }
         
-       @FXML
-        public void modificar(ActionEvent evento){
-            Vehiculo vehiculo = listViewVehiculos.getSelectionModel().getSelectedItem();
-            
-            if(vehiculo != null) {
-                this.AbrirFormulario(vehiculo);
-            }
-        }
+    @FXML
+    public void modificar(ActionEvent evento){
+         Vehiculo vehiculo = listViewVehiculos.getSelectionModel().getSelectedItem();
+
+         if(vehiculo != null) {
+             this.AbrirFormulario(vehiculo);
+         }
+     }
+
+    @FXML
+    public void eliminar(ActionEvent evento){
+         Vehiculo vehiculo = listViewVehiculos.getSelectionModel().getSelectedItem();
+         if (vehiculo != null) {
+             Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+             alerta.setTitle("Confirmar eliminacion");
+             alerta.setHeaderText("Estas seguro que quiere eliminar al vehiculo?");
+             alerta.setContentText(vehiculo.toString());
+             Optional<ButtonType> resultado = alerta.showAndWait();
+
+             if (resultado.isPresent() && resultado.get()== ButtonType.OK) {
+                 estacionamiento.eliminarVehiculo(vehiculo);
+                 this.refrescarVista();
+             }
+         }
+    }
         
-        @FXML
-        public void eliminar(ActionEvent evento){
-            Vehiculo vehiculo = listViewVehiculos.getSelectionModel().getSelectedItem();
-            if (vehiculo != null) {
-                Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-                alerta.setTitle("Confirmar eliminacion");
-                alerta.setHeaderText("Estas seguro que quiere eliminar al vehiculo?");
-                alerta.setContentText(vehiculo.toString());
-                Optional<ButtonType> resultado = alerta.showAndWait();
-                
-                if (resultado.isPresent() && resultado.get()== ButtonType.OK) {
-                    estacionamiento.eliminarVehiculo(vehiculo);
-                    this.refrescarVista();
-                }
-            }
-        }
+    public void refrescarVista(){
+        this.listViewVehiculos.getItems().clear();
+        this.listViewVehiculos.getItems().addAll(estacionamiento.getVehiculos());
+        this.GuardarArchivo();
+    }   
         
-        public void refrescarVista(){
-            this.listViewVehiculos.getItems().clear();
-            this.listViewVehiculos.getItems().addAll(estacionamiento.getVehiculos());
-            this.GuardarArchivo();
-        }   
-        
-        private void AbrirFormulario(Vehiculo vehiculo) {
-            try{
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Formulario.fxml"));
-        
-                Scene scene = new Scene(loader.load());
-                FormularioController controlador = loader.getController();
-                Stage stage = new Stage();
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.setScene(scene);               
-                controlador.setVehiculo(vehiculo);
-                stage.showAndWait();
-                Vehiculo resultado = controlador.getVehiculo();
-                    if(resultado != null) { // respuesta controlador
-                        if(vehiculo == null){
-                            if (!estacionamiento.getVehiculos().contains(resultado)){
-                                this.estacionamiento.agregarVehiculo(resultado);
-                            }
+    private void AbrirFormulario(Vehiculo vehiculo) {
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Formulario.fxml"));
+    
+            Scene scene = new Scene(loader.load());
+            FormularioController controlador = loader.getController();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(scene);               
+            controlador.setVehiculo(vehiculo);
+            stage.showAndWait();
+            Vehiculo resultado = controlador.getVehiculo();
+                if(resultado != null) { // respuesta controlador
+                    if(vehiculo == null){
+                        if (!estacionamiento.getVehiculos().contains(resultado)){
+                            this.estacionamiento.agregarVehiculo(resultado);
                         }
                     }
-                    this.refrescarVista();
-            }
-            catch(IOException | VehiculoRepetidoException e){
-                           
+                }
+                this.refrescarVista();
+        }
+        catch(IOException | VehiculoRepetidoException e){
+            System.out.println("Error:" + e.getMessage());
+        }
+    }
+
+    public void GuardarArchivo() {
+        ArrayList<ISerializableCsv> data = new ArrayList<>();
+        for(Vehiculo item : this.estacionamiento.getVehiculos()){
+            if(item instanceof ISerializableCsv vehiculo){ // Repasar
+                data.add(vehiculo);
             }
         }
-        
-        public void GuardarArchivo() {
-            ArrayList<ISerializableCsv> data = new ArrayList<>();
-            for(Vehiculo item : this.estacionamiento.getVehiculos()){
-                if(item instanceof ISerializableCsv vehiculo){ // Repasar
-                    data.add(vehiculo);
-                }
+        herramientaCsv.escribirCSV(data);
+    }
+
+    public void LeerArchivo() {
+        ArrayList<Vehiculo> vehiculos = new ArrayList<>();
+        ArrayList<String> resultado = herramientaCsv.leerCSV("datos.csv");
+
+        for (String item : resultado ) {
+            if(item == null || item.isEmpty()) {
+                continue;
             }
-            herramientaCsv.escribirCSV(data);
-        }
-        
-        public void LeerArchivo() {
-            ArrayList<Vehiculo> vehiculos = new ArrayList<>();
-            ArrayList<String> resultado = herramientaCsv.leerCSV("datos.csv");
-            
-            for (String item : resultado ) {
-                if(item == null || item.isEmpty()) {
-                    continue;
-                }
-                String[] result = item.split(",");
-                Vehiculo vehiculo = null;
-                
-                if (result[6].equals("Auto")) {
-                    vehiculo = new Auto().fromCSV(item);
-                }
-                
-                if (result[6].equals("Camioneta")) {
-                    vehiculo = new Camioneta().fromCSV(item);
-                }
-                
-                if (result[6].equals("Moto")) {
-                    vehiculo = new Moto().fromCSV(item);
-                }
-                if (vehiculo != null) {
-                    vehiculos.add(vehiculo);
-                }
+            String[] result = item.split(",");
+            Vehiculo vehiculo = null;
+
+            if (result[6].equals("Auto")) {
+                vehiculo = new Auto().fromCSV(item);
             }
-            estacionamiento = new Estacionamiento();
-            estacionamiento.getVehiculos().addAll(vehiculos);
-            this.refrescarVista();
+
+            if (result[6].equals("Camioneta")) {
+                vehiculo = new Camioneta().fromCSV(item);
+            }
+
+            if (result[6].equals("Moto")) {
+                vehiculo = new Moto().fromCSV(item);
+            }
+            if (vehiculo != null) {
+                vehiculos.add(vehiculo);
+            }
         }
+        estacionamiento = new Estacionamiento();
+        estacionamiento.getVehiculos().addAll(vehiculos);
+        this.refrescarVista();
+    }
 }
 

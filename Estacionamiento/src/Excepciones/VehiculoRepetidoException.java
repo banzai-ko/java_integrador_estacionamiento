@@ -10,9 +10,9 @@ package Excepciones;
  */
 
 public class VehiculoRepetidoException extends RuntimeException {
-    
     public VehiculoRepetidoException(String mensaje) {
         super(mensaje); 
+    
     }
 }
 

@@ -57,7 +57,7 @@ public class Camioneta extends Vehiculo implements ICobrable, ISerializableCsv {
         return 0.30;
     }
     
-        public String toCSV(){
+    public String toCSV(){
         StringBuilder sb = new StringBuilder();
         sb.append(super.toCSV()).append(this.calcularPrecio()).append(",Camioneta");
         sb.append(",").append(this.capacidadCarga);

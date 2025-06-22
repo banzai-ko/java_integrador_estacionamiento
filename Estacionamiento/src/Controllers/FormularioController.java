@@ -70,7 +70,6 @@ public class FormularioController implements Initializable {
             case "CAMIONETA" -> lblDatoExtra.setText("CAPACIDAD DE CARGA");
         
         }
-        
     }
     
     @FXML
@@ -98,7 +97,6 @@ public class FormularioController implements Initializable {
                 case "CAMIONETA" -> ((Camioneta)vehiculo).setCapacidadCarga(datoExtra);
             }
         }
-        
         else{
             
             switch(tipo){
@@ -111,7 +109,6 @@ public class FormularioController implements Initializable {
             
             }
         }
-        
         this.cerrar();
     }
     
@@ -121,7 +118,6 @@ public class FormularioController implements Initializable {
     }
     
     public Vehiculo getVehiculo(){
-        
         return this.vehiculo;
     }
     

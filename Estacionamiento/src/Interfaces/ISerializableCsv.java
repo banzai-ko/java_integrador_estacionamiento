@@ -9,6 +9,8 @@ package Interfaces;
  * @author box
  */
 public interface ISerializableCsv {
+    
     String toCSV() ;
+    
     ISerializableCsv fromCSV(String data);
 }

@@ -24,7 +24,7 @@ public class Estacionamiento {
         this(5);
     }
     
-   public void agregarVehiculo(Vehiculo vehiculo){
+    public void agregarVehiculo(Vehiculo vehiculo){
        if (this.vehiculos.contains(vehiculo)){
            throw new VehiculoRepetidoException("El vehiculo ya se encuentra en el estacionamiento!");
        }
@@ -32,36 +32,17 @@ public class Estacionamiento {
            throw new CantidadSuperadaException("El estacionamiento ya se encuentra lleno!");
        }
        this.vehiculos.add(vehiculo);
-       System.out.println("Vehículo Agregado");
+       System.out.println("Vehículo Agregado >>>" + vehiculo.toString());
    }
-           
-           
-//public void modificarVehiculo(Vehiculo vehiculo){         STANDBY...
-//    
-//    
-//}
         
-        
-public  void eliminarVehiculo(Vehiculo vehiculo){
-    
-    this.vehiculos.remove(vehiculo);
-    
-}
-    
-//public Vehiculo getVehiculo(Vehiculo comparable){
-//   Vehiculo retorno = comparable;
-//    for(Vehiculo vehiculo : this.vehiculos){
-//        if(vehiculo.equals(comparable)){
-//            
-//            retorno = vehiculo;
-//        }
-//        
-//    }
-//    
-//    return retorno;
-//}   
+    public  void eliminarVehiculo(Vehiculo vehiculo){
 
+        this.vehiculos.remove(vehiculo);
+
+    }
+    
     public ArrayList<Vehiculo> getVehiculos() {
+        
         return vehiculos;
     }
 }

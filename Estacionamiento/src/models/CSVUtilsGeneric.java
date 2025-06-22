@@ -34,10 +34,10 @@ public class CSVUtilsGeneric<T extends ISerializableCsv> {
         }
     }
 
-        public ArrayList<String> leerCSV(String ruta){
+    public ArrayList<String> leerCSV(String ruta){
         // Leer el CSV
         ArrayList<String> lista = new ArrayList<>(); 
-        
+
         try (BufferedReader br = new BufferedReader(new FileReader(ruta))) {
             String linea;
             while ((linea = br.readLine()) != null) {
