@@ -10,7 +10,7 @@ package Interfaces;
  */
 public interface ISerializableCsv {
     
-    String toCSV() ;
+    String toCSV();
     
     ISerializableCsv fromCSV(String data);
 }
